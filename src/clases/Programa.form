@@ -41,15 +41,26 @@
                 <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clientesBuscarMousePressed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="clientesCatalogoProductos">
+            <MenuItem class="javax.swing.JMenuItem" name="clientesAbonos">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Catalogo de productos"/>
+                <Property name="text" type="java.lang.String" value="Abonos"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="clientesHistorialCompras">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Historial de compras"/>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clientesHistorialComprasMousePressed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="clientesCatalogoProductos">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Catalogo de Clientes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clientesCatalogoProductosMousePressed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -94,6 +105,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Catalogo de articulos"/>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="articulosCatalogoArticulosMousePressed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

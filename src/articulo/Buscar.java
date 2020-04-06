@@ -186,7 +186,7 @@ public class Buscar extends javax.swing.JInternalFrame {
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
         String comprobar = validarCampos();
-        if (validarCampos().isEmpty()) {
+        if (comprobar.isEmpty()) {
             int indice = 0;
             if (codigoButton.isSelected()) {
                 int codigo = Integer.parseInt(codigoTexto.getText());
@@ -207,6 +207,8 @@ public class Buscar extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(panel1, "Articulo no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
+        } else {
+            JOptionPane.showMessageDialog(panel1, comprobar, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_buscarActionPerformed
 
