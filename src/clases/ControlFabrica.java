@@ -14,10 +14,10 @@ import javax.swing.table.TableModel;
  * @author ociel
  */
 public class ControlFabrica {
-
+    
     private ArrayList<Clientes> clientes = new ArrayList();
     private ArrayList<Articulos> articulos = new ArrayList();
-
+    
     public int contarElementos(int tipoLista) {
         if (tipoLista == 1) {
             return clientes.size();
@@ -25,11 +25,11 @@ public class ControlFabrica {
             return articulos.size();
         }
     }
-
+    
     public int contarCompras(int indice) {
         return clientes.get(indice).getHistorialCompras().size();
     }
-
+    
     public boolean altas(int tipoAlta, Object objeto) {
         if (tipoAlta == 1) {
             clientes.add((Clientes) objeto);
@@ -39,7 +39,7 @@ public class ControlFabrica {
             return true;
         }
     }
-
+    
     public boolean bajas(int tipoLista, Object dato) {
         int indice = 0;
         if (tipoLista == 1) {
@@ -57,7 +57,7 @@ public class ControlFabrica {
         }
         return false;
     }
-
+    
     public boolean cambios(int tipoLista, TableModel tablaModelo) {
         int fila = 0;
         if (tipoLista == 1) {
@@ -87,7 +87,7 @@ public class ControlFabrica {
         }
         return false;
     }
-
+    
     public int buscar(int tipoLista, Object dato) {
         int indice = 0;
         if (tipoLista == 1) {
@@ -97,6 +97,7 @@ public class ControlFabrica {
             if (dato instanceof String) {
                 Collections.sort(articulos, Articulos.compareNombre);
                 indice = Collections.binarySearch(articulos, new Articulos(dato.toString(), null, null, null, 0, 0, 0), Articulos.compareNombre);
+                System.out.println(indice);
             } else {
                 Collections.sort(articulos, Articulos.compareCodigo);
                 indice = Collections.binarySearch(articulos, new Articulos(null, null, null, null, (int) dato, 0, 0), Articulos.compareCodigo);
@@ -104,7 +105,7 @@ public class ControlFabrica {
         }
         return indice;
     }
-
+    
     public DefaultTableModel tablaModelo(int tipoTabla, int index) {
         DefaultTableModel tablaModelo = new DefaultTableModel();
         Object[] datos;
@@ -117,7 +118,7 @@ public class ControlFabrica {
             tablaModelo.addColumn("Saldo");
             tablaModelo.addColumn("Domicilio");
             datos = new Object[5];
-
+            
             if (index == -1) {
                 Iterator iterar = clientes.iterator();
                 while (iterar.hasNext()) {
@@ -173,7 +174,7 @@ public class ControlFabrica {
             }
             //tabla 2 | Historial Compra
         } else if (tipoTabla == 3) {
-
+            
             datos = new Object[5];
             tablaModelo.addColumn("Número de compra");
             tablaModelo.addColumn("Código artículo");
@@ -194,7 +195,10 @@ public class ControlFabrica {
             }
         }
         return tablaModelo;
-
     }
-
+    
+    public void comprar(int index, int cantidad) {
+        articulos.get(index).setExistencia(articulos.get(index).getExistencia() + cantidad);
+    }
+    
 }
