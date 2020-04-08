@@ -14,19 +14,22 @@ import javax.swing.table.TableModel;
  * @author ociel
  */
 public class ControlFabrica {
-
+    
     private ArrayList<Clientes> clientes = new ArrayList();
     private ArrayList<Articulos> articulos = new ArrayList();
-
+    
     public int contarElementos(int tipoLista) {
         if (tipoLista == 1) {
             return clientes.size();
         } else {
             return articulos.size();
         }
-
     }
-
+    
+    public int contarCompras(int indice) {
+        return clientes.get(indice).getHistorialCompras().size();
+    }
+    
     public boolean altas(int tipoAlta, Object objeto) {
         if (tipoAlta == 1) {
             clientes.add((Clientes) objeto);
@@ -36,7 +39,7 @@ public class ControlFabrica {
             return true;
         }
     }
-
+    
     public boolean bajas(int tipoLista, Object dato) {
         int indice = 0;
         if (tipoLista == 1) {
@@ -54,7 +57,7 @@ public class ControlFabrica {
         }
         return false;
     }
-
+    
     public boolean cambios(int tipoLista, TableModel tablaModelo) {
         int fila = 0;
         if (tipoLista == 1) {
@@ -84,7 +87,7 @@ public class ControlFabrica {
         }
         return false;
     }
-
+    
     public int buscar(int tipoLista, Object dato) {
         int indice = 0;
         if (tipoLista == 1) {
@@ -92,20 +95,20 @@ public class ControlFabrica {
             indice = Collections.binarySearch(clientes, new Clientes(null, null, dato.toString(), null, 0), Clientes.compareRFC);
         } else {
             if (dato instanceof String) {
-                System.out.println("a");
                 Collections.sort(articulos, Articulos.compareNombre);
                 indice = Collections.binarySearch(articulos, new Articulos(dato.toString(), null, null, null, 0, 0, 0), Articulos.compareNombre);
             } else {
                 Collections.sort(articulos, Articulos.compareCodigo);
                 indice = Collections.binarySearch(articulos, new Articulos(null, null, null, null, (int) dato, 0, 0), Articulos.compareCodigo);
             }
-            System.out.println(indice);
         }
         return indice;
     }
-
+    
     public DefaultTableModel tablaModelo(int tipoTabla, int index) {
         DefaultTableModel tablaModelo = new DefaultTableModel();
+        Object[] datos;
+        //tabla 1 | Clientes
         if (tipoTabla == 1) {
             Collections.sort(clientes, Clientes.compareRFC);
             tablaModelo.addColumn("RFC");
@@ -113,8 +116,8 @@ public class ControlFabrica {
             tablaModelo.addColumn("Tipo de Cliente");
             tablaModelo.addColumn("Saldo");
             tablaModelo.addColumn("Domicilio");
-            Object[] datos = new Object[5];
-
+            datos = new Object[5];
+            
             if (index == -1) {
                 Iterator iterar = clientes.iterator();
                 while (iterar.hasNext()) {
@@ -134,6 +137,7 @@ public class ControlFabrica {
                 datos[4] = clientes.get(index).getDomicilio();
                 tablaModelo.addRow(datos);
             }
+            //tabla 2 | Clientes
         } else if (tipoTabla == 2) {
             tablaModelo.addColumn("Código");
             tablaModelo.addColumn("Nombre");
@@ -142,7 +146,7 @@ public class ControlFabrica {
             tablaModelo.addColumn("Existencia");
             tablaModelo.addColumn("Precio Venta");
             tablaModelo.addColumn("Descripcion");
-            Object[] datos = new Object[7];
+            datos = new Object[7];
             if (index == -1) {
                 Collections.sort(articulos, Articulos.compareCodigo);
                 Iterator iterar = articulos.iterator();
@@ -158,7 +162,6 @@ public class ControlFabrica {
                     tablaModelo.addRow(datos);
                 }
             } else if (index >= 0) {
-                Iterator iterar = articulos.iterator();
                 datos[0] = articulos.get(index).getCodigo();
                 datos[1] = articulos.get(index).getNombre();
                 datos[2] = articulos.get(index).getMarca();
@@ -168,9 +171,33 @@ public class ControlFabrica {
                 datos[6] = articulos.get(index).getDescripcion();
                 tablaModelo.addRow(datos);
             }
+            //tabla 2 | Historial Compra
+        } else if (tipoTabla == 3) {
+            
+            datos = new Object[5];
+            tablaModelo.addColumn("Número de compra");
+            tablaModelo.addColumn("Código artículo");
+            tablaModelo.addColumn("Cantidad de compra");
+            tablaModelo.addColumn("Fecha de compra");
+            tablaModelo.addColumn("Total");
+            if (index >= 0) {
+                Iterator iterar = clientes.get(index).getHistorialCompras().iterator();
+                while (iterar.hasNext()) {
+                    HistorialCompras historialCompras = (HistorialCompras) iterar.next();
+                    datos[0] = historialCompras.getCodigoArticulo();
+                    datos[1] = historialCompras.getCodigoArticulo();
+                    datos[2] = historialCompras.getCantidadCompras();
+                    datos[3] = historialCompras.getFechaCompra();
+                    datos[4] = historialCompras.getTotal();
+                    tablaModelo.addRow(datos);
+                }
+            }
         }
         return tablaModelo;
-
     }
-
+    
+    public void comprar(int index, int cantidad) {
+        articulos.get(index).setExistencia(articulos.get(index).getExistencia() + cantidad);
+    }
+    
 }

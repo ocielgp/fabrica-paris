@@ -31,8 +31,9 @@ public class Programa extends javax.swing.JFrame {
         clientesBajas = new javax.swing.JMenuItem();
         clientesCambios = new javax.swing.JMenuItem();
         clientesBuscar = new javax.swing.JMenuItem();
-        clientesCatalogoProductos = new javax.swing.JMenuItem();
+        clientesAbonos = new javax.swing.JMenuItem();
         clientesHistorialCompras = new javax.swing.JMenuItem();
+        clientesCatalogoProductos = new javax.swing.JMenuItem();
         articulos = new javax.swing.JMenu();
         articulosAltas = new javax.swing.JMenuItem();
         articulosBajas = new javax.swing.JMenuItem();
@@ -94,11 +95,24 @@ public class Programa extends javax.swing.JFrame {
         });
         clientes.add(clientesBuscar);
 
-        clientesCatalogoProductos.setText("Catalogo de productos");
-        clientes.add(clientesCatalogoProductos);
+        clientesAbonos.setText("Abonos");
+        clientes.add(clientesAbonos);
 
         clientesHistorialCompras.setText("Historial de compras");
+        clientesHistorialCompras.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                clientesHistorialComprasMousePressed(evt);
+            }
+        });
         clientes.add(clientesHistorialCompras);
+
+        clientesCatalogoProductos.setText("Catalogo de Clientes");
+        clientesCatalogoProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                clientesCatalogoProductosMousePressed(evt);
+            }
+        });
+        clientes.add(clientesCatalogoProductos);
 
         jMenuBar1.add(clientes);
 
@@ -137,6 +151,11 @@ public class Programa extends javax.swing.JFrame {
         articulos.add(articulosBuscar);
 
         articulosCatalogoArticulos.setText("Catalogo de articulos");
+        articulosCatalogoArticulos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                articulosCatalogoArticulosMousePressed(evt);
+            }
+        });
         articulos.add(articulosCatalogoArticulos);
 
         jMenuBar1.add(articulos);
@@ -144,6 +163,11 @@ public class Programa extends javax.swing.JFrame {
         jMenu1.setText("Movimientos");
 
         movimientosCompras.setText("Compras");
+        movimientosCompras.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                movimientosComprasMousePressed(evt);
+            }
+        });
         jMenu1.add(movimientosCompras);
 
         movimientosVentas.setText("Ventas");
@@ -252,6 +276,46 @@ public class Programa extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_articulosBuscarMousePressed
 
+    private void articulosCatalogoArticulosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_articulosCatalogoArticulosMousePressed
+        if (controlFabrica.contarElementos(2) != 0) {
+            articulo.catalogoArticulos catalogo = new articulo.catalogoArticulos(controlFabrica);
+            escritorio.add(catalogo);
+            catalogo.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(escritorio, "No hay articulos registrados.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_articulosCatalogoArticulosMousePressed
+
+    private void clientesCatalogoProductosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesCatalogoProductosMousePressed
+        if (controlFabrica.contarElementos(1) != 0) {
+            cliente.catalogoClientes catalogo = new cliente.catalogoClientes(controlFabrica);
+            escritorio.add(catalogo);
+            catalogo.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(escritorio, "No hay clientes registrados.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_clientesCatalogoProductosMousePressed
+
+    private void clientesHistorialComprasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesHistorialComprasMousePressed
+        if (controlFabrica.contarElementos(1) != 0) {
+            cliente.HistorialCompra historialCompra = new cliente.HistorialCompra(controlFabrica);
+            escritorio.add(historialCompra);
+            historialCompra.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(escritorio, "No hay clientes registrados.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_clientesHistorialComprasMousePressed
+
+    private void movimientosComprasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_movimientosComprasMousePressed
+        if (controlFabrica.contarElementos(2) != 0) {
+            movimientos.Compras compras = new movimientos.Compras(controlFabrica);
+            escritorio.add(compras);
+            compras.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(escritorio, "No hay articulos registrados.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_movimientosComprasMousePressed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu articulos;
     private javax.swing.JMenuItem articulosAltas;
@@ -260,6 +324,7 @@ public class Programa extends javax.swing.JFrame {
     private javax.swing.JMenuItem articulosCambios;
     private javax.swing.JMenuItem articulosCatalogoArticulos;
     private javax.swing.JMenu clientes;
+    private javax.swing.JMenuItem clientesAbonos;
     private javax.swing.JMenuItem clientesAltas;
     private javax.swing.JMenuItem clientesBajas;
     private javax.swing.JMenuItem clientesBuscar;

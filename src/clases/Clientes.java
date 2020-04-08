@@ -21,6 +21,12 @@ public class Clientes implements Descuentos {
         this.saldo = saldo;
     }
 
+    public ArrayList<HistorialCompras> getHistorialCompras() {
+        return historialCompras;
+    }
+    
+    
+
     public void setHistorialCompras(ArrayList<HistorialCompras> historialCompras) {
         this.historialCompras = historialCompras;
     }
