@@ -97,7 +97,6 @@ public class ControlFabrica {
             if (dato instanceof String) {
                 Collections.sort(articulos, Articulos.compareNombre);
                 indice = Collections.binarySearch(articulos, new Articulos(dato.toString(), null, null, null, 0, 0, 0), Articulos.compareNombre);
-                System.out.println(indice);
             } else {
                 Collections.sort(articulos, Articulos.compareCodigo);
                 indice = Collections.binarySearch(articulos, new Articulos(null, null, null, null, (int) dato, 0, 0), Articulos.compareCodigo);
