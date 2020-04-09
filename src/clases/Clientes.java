@@ -2,6 +2,7 @@ package clases;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  *
@@ -24,45 +25,27 @@ public class Clientes implements Descuentos {
     public ArrayList<HistorialCompras> getHistorialCompras() {
         return historialCompras;
     }
-    
-    
 
-    public void setHistorialCompras(ArrayList<HistorialCompras> historialCompras) {
-        this.historialCompras = historialCompras;
-    }
-
-    public int contarArticulos(ArrayList<HistorialCompras> comprasClientes) {
-        int contarProductos = 0;
-        for (int i = 0; i < comprasClientes.size(); i++) {
-//            contarProductos += comprasClientes.get(i).getCantidadCompra();
-        }
-        return contarProductos;
-    }
-
-    public double contarTotal(ArrayList<HistorialCompras> comprasClientes) {
-        int contarTotal = 0;
-        for (int i = 0; i < comprasClientes.size(); i++) {
-            contarTotal += comprasClientes.get(i).getTotal();
-        }
-        return contarTotal;
+    public void setHistorialCompras(HistorialCompras historialCompras) {
+        this.historialCompras.add(historialCompras);
     }
 
     @Override
     public double otrosDescuentos() {
         if (tipoCliente.equals("Dorada")) {
-            if (contarArticulos(historialCompras) > 20 | contarTotal(historialCompras) > 50000) {
+            if (historialCompras.size() > 20 | saldo > 50000) {
                 return tDorada + 0.03;
             } else {
                 return tDorada;
             }
         } else if (tipoCliente.equals("Plateada")) {
-            if (contarTotal(historialCompras) > 50000) {
+            if (saldo > 50000) {
                 return tPlateada + 0.015;
             } else {
                 return tPlateada;
             }
         } else if (tipoCliente.equals("Blanca")) {
-            if (contarTotal(historialCompras) > 30000) {
+            if (saldo > 30000) {
                 return tBlanca + 0.01;
             } else {
                 return tBlanca;

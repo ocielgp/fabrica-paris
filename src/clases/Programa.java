@@ -171,6 +171,11 @@ public class Programa extends javax.swing.JFrame {
         jMenu1.add(movimientosCompras);
 
         movimientosVentas.setText("Ventas");
+        movimientosVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                movimientosVentasMousePressed(evt);
+            }
+        });
         jMenu1.add(movimientosVentas);
 
         jMenu2.setText("Reportes");
@@ -315,6 +320,14 @@ public class Programa extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(escritorio, "No hay articulos registrados.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_movimientosComprasMousePressed
+
+    private void movimientosVentasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_movimientosVentasMousePressed
+        if (controlFabrica.contarElementos(1) > 0 & controlFabrica.contarElementos(2) > 0) {
+            movimientos.Ventas ventas = new movimientos.Ventas(controlFabrica);
+            escritorio.add(ventas);
+            ventas.setVisible(true);
+        }
+    }//GEN-LAST:event_movimientosVentasMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu articulos;

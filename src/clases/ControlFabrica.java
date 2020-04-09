@@ -14,10 +14,11 @@ import javax.swing.table.TableModel;
  * @author ociel
  */
 public class ControlFabrica {
-    
+
     private ArrayList<Clientes> clientes = new ArrayList();
     private ArrayList<Articulos> articulos = new ArrayList();
-    
+    private int contadorDeCompras = 0;
+
     public int contarElementos(int tipoLista) {
         if (tipoLista == 1) {
             return clientes.size();
@@ -25,11 +26,11 @@ public class ControlFabrica {
             return articulos.size();
         }
     }
-    
+
     public int contarCompras(int indice) {
         return clientes.get(indice).getHistorialCompras().size();
     }
-    
+
     public boolean altas(int tipoAlta, Object objeto) {
         if (tipoAlta == 1) {
             clientes.add((Clientes) objeto);
@@ -39,7 +40,7 @@ public class ControlFabrica {
             return true;
         }
     }
-    
+
     public boolean bajas(int tipoLista, Object dato) {
         int indice = 0;
         if (tipoLista == 1) {
@@ -57,7 +58,7 @@ public class ControlFabrica {
         }
         return false;
     }
-    
+
     public boolean cambios(int tipoLista, TableModel tablaModelo) {
         int fila = 0;
         if (tipoLista == 1) {
@@ -87,7 +88,7 @@ public class ControlFabrica {
         }
         return false;
     }
-    
+
     public int buscar(int tipoLista, Object dato) {
         int indice = 0;
         if (tipoLista == 1) {
@@ -104,7 +105,7 @@ public class ControlFabrica {
         }
         return indice;
     }
-    
+
     public DefaultTableModel tablaModelo(int tipoTabla, int index) {
         DefaultTableModel tablaModelo = new DefaultTableModel();
         Object[] datos;
@@ -117,7 +118,7 @@ public class ControlFabrica {
             tablaModelo.addColumn("Saldo");
             tablaModelo.addColumn("Domicilio");
             datos = new Object[5];
-            
+
             if (index == -1) {
                 Iterator iterar = clientes.iterator();
                 while (iterar.hasNext()) {
@@ -137,7 +138,7 @@ public class ControlFabrica {
                 datos[4] = clientes.get(index).getDomicilio();
                 tablaModelo.addRow(datos);
             }
-            //tabla 2 | Clientes
+            //tabla 2 | Articulos
         } else if (tipoTabla == 2) {
             tablaModelo.addColumn("Código");
             tablaModelo.addColumn("Nombre");
@@ -171,33 +172,77 @@ public class ControlFabrica {
                 datos[6] = articulos.get(index).getDescripcion();
                 tablaModelo.addRow(datos);
             }
-            //tabla 2 | Historial Compra
+            //tabla 3 | Historial Compra
         } else if (tipoTabla == 3) {
-            
-            datos = new Object[5];
+
+            datos = new Object[6];
             tablaModelo.addColumn("Número de compra");
             tablaModelo.addColumn("Código artículo");
             tablaModelo.addColumn("Cantidad de compra");
             tablaModelo.addColumn("Fecha de compra");
+            tablaModelo.addColumn("Forma de pago");
             tablaModelo.addColumn("Total");
             if (index >= 0) {
                 Iterator iterar = clientes.get(index).getHistorialCompras().iterator();
                 while (iterar.hasNext()) {
                     HistorialCompras historialCompras = (HistorialCompras) iterar.next();
+                    datos[1] = historialCompras.getNumCompra();
                     datos[0] = historialCompras.getCodigoArticulo();
-                    datos[1] = historialCompras.getCodigoArticulo();
                     datos[2] = historialCompras.getCantidadCompras();
                     datos[3] = historialCompras.getFechaCompra();
-                    datos[4] = historialCompras.getTotal();
+                    datos[4] = historialCompras.getFormaPago();
+                    datos[5] = historialCompras.getTotal();
                     tablaModelo.addRow(datos);
                 }
             }
         }
         return tablaModelo;
     }
-    
+
     public void comprar(int index, int cantidad) {
         articulos.get(index).setExistencia(articulos.get(index).getExistencia() + cantidad);
     }
-    
+
+    //validar | true para restar | false para verificar
+    public boolean diferenciaCantidad(int index, int cantidad, boolean validar) {
+        if (validar) {
+            articulos.get(index).setExistencia(articulos.get(index).getExistencia() - cantidad);
+            return true;
+        } else {
+            if ((articulos.get(index).getExistencia() - cantidad) < 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public double calcularVenta(int index, int cantidad) {
+        return articulos.get(index).getPrecioVenta() * cantidad;
+    }
+
+    public double calcularDescuentos(int index) {
+        return clientes.get(index).otrosDescuentos();
+    }
+
+    public void agregarVenta(int cliente, HistorialCompras historialCompras) {
+        clientes.get(cliente).setHistorialCompras(historialCompras);
+    }
+
+    public boolean agregarSaldo(int index, double saldo) {
+        clientes.get(index).setSaldo(saldo);
+        return true;
+    }
+
+    public double returnSaldo(int cliente) {
+        return clientes.get(cliente).getSaldo();
+    }
+
+    public int getContadorDeCompras() {
+        return contadorDeCompras;
+    }
+
+    public void setContadorDeCompras(int contadorDeCompras) {
+        this.contadorDeCompras = contadorDeCompras;
+    }
+
 }

@@ -84,6 +84,8 @@ public class Compras extends javax.swing.JInternalFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         salir = new javax.swing.JMenu();
 
+        setTitle("Compras");
+
         textoLabel.setText("Texto");
 
         nombre.setText("Nombre");

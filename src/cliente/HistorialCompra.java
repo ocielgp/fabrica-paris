@@ -26,6 +26,8 @@ public class HistorialCompra extends javax.swing.JInternalFrame {
         textoLabel = new javax.swing.JLabel();
         rfcTexto = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
+        saldoLabel = new javax.swing.JLabel();
+        saldoTexto = new javax.swing.JTextField();
         panel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
@@ -41,6 +43,10 @@ public class HistorialCompra extends javax.swing.JInternalFrame {
             }
         });
 
+        saldoLabel.setText("Saldo");
+
+        saldoTexto.setEnabled(false);
+
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
@@ -51,17 +57,27 @@ public class HistorialCompra extends javax.swing.JInternalFrame {
                     .addGroup(panel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(buscar))
-                    .addComponent(textoLabel)
-                    .addComponent(rfcTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textoLabel)
+                            .addComponent(rfcTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(42, 42, 42)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(saldoLabel)
+                            .addComponent(saldoTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(634, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(textoLabel)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textoLabel)
+                    .addComponent(saldoLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rfcTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rfcTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saldoTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buscar)
                 .addContainerGap(15, Short.MAX_VALUE))
@@ -124,22 +140,25 @@ public class HistorialCompra extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
+        texto = "";
         if (rfcTexto.getText().isBlank()) {
             texto = "Por favor, completa el RFC.";
         } else {
             int index = controlFabrica.buscar(1, rfcTexto.getText());
-            if (index != -1) {
+            if (index >= 0) {
                 if (controlFabrica.contarCompras(index) == 0) {
                     texto = "El cliente no tiene compras registradas.";
                 } else {
                     tabla.setModel(controlFabrica.tablaModelo(3, index));
+                    saldoTexto.setText("$ "+controlFabrica.returnSaldo(index));
                 }
             } else {
                 texto = "Cliente no encontrado.";
                 tabla.setModel(controlFabrica.tablaModelo(3, index));
+                saldoTexto.setText("");
             }
         }
-        if (!texto.isBlank()) {
+        if (!texto.equals("")) {
             JOptionPane.showMessageDialog(panel1, texto, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_buscarActionPerformed
@@ -156,6 +175,8 @@ public class HistorialCompra extends javax.swing.JInternalFrame {
     private javax.swing.JPanel panel1;
     private javax.swing.JPanel panel2;
     private javax.swing.JTextField rfcTexto;
+    private javax.swing.JLabel saldoLabel;
+    private javax.swing.JTextField saldoTexto;
     private javax.swing.JMenu salir;
     private javax.swing.JTable tabla;
     private javax.swing.JLabel textoLabel;
